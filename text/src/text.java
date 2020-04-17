@@ -11,5 +11,6 @@ public class text {
         scores[2] = 99;
         s.printScores();
         //4月17日
+        //？？？
     }
 }
