@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        body{
+            background: url("img/register_bg.png") no-repeat center ;
+        }
+        .rg_layout{
+            width: 900px;
+            height: 500px;
+            border: 8px solid #EEEEEE;
+            background-color: white;
+            /*让div水平居中用margin：auto*/
+            margin: auto;
+            margin-top: 15px;
+        }
+        .rg_left{
+            margin: 15px;
+            /*border: 1px solid red;*/
+            float: left;
+        }
+        .rg_left p:first-child{
+            color: #FFD026;
+            font-size: 20px;
+        }
+        .rg_left p:last-child{
+            color: #A6A6A6;
+            font-size: 20px;
+        }
+        .rg_center{
+            /*border: 1px solid red;*/
+            float: left;
+            width: 550px;
+        }
+        .rg_right{
+            /*border: 1px solid red;*/
+            float: right;
+            margin: 10px;
+        }
+        .rg_right p{
+            font-size: 15px;
+        }
+        .rg_right p a{
+            color: pink;
+        }
+        .td_left{
+            width: 100px;
+            text-align: right;
+            height: 45px;
+        }
+
+        .td_right{
+            padding-left: 50px;
+        }
+
+        .error{
+            color: red;
+            vertical-align: center;
+        }
+
+        .goupng{
+            width: 35px;
+            height: 25px;
+        }
+
+        #username,#password,#Email,#name,#telephone,#birthday,#checkcode{
+            width: 251px;
+            height: 32px;
+            border: 1px solid #A6A6A6;
+            /*设置边框圆角*/
+            border-radius: 5px;
+            padding-left: 10px;
+        }
+        #checkcode{
+            width: 110px;
+        }
+        #img_check{
+            height: 32px;
+            vertical-align: middle;
+        }
+        #btn_sub{
+            margin-top: 10px;
+            margin-left: 19px;
+            width: 120px;
+            height: 35px;
+            background-color: #FFD026;
+            border: 1px #FFD026;
+        }
+    </style>
+    <script>
+        /*
+            分析：
+                *给表单绑定onsubmit事件。将来值为true则提交表单，true还是false依赖于表单项输入是否正确
+                    *如果都为true，则监听器方法返回true
+                    * 否则有一个为false，则监听器返回false
+                *定义一些方法，分别校验各个表单项
+                * 给各个表单项绑定onblur事件
+         */
+        window.onload = function () {
+            //给表单绑定onsubmit事件
+            document.getElementById("form").onsubmit = function () {
+                return checkUsername() && checkPassword() && checkEmail() && checkname() && checktelephone();
+            }
+            //绑定离焦事件，只有这样光标离开输入栏才会立马显示校验是否成成
+            document.getElementById("username").onblur = checkUsername;//等于的是一个方法对象，千万不能写括号了！！
+            document.getElementById("password").onblur = checkPassword;
+            document.getElementById("Email").onblur = checkEmail;
+            document.getElementById("name").onblur = checkname;
+            document.getElementById("telephone").onblur = checktelephone;
+
+        }
+
+        //校验用户名
+        function checkUsername() {
+            //1.获取用户名的值
+            var username = document.getElementById("username").value;
+            //2.定义正则表达式
+            var reg_username = /^\w{6,12}$/;//6到12位的正则表达式
+            //3.判断值是否符合正则的规则
+            var flag = reg_username.test(username);
+            //4.提示信息
+            var s_username = document.getElementById("s_username");
+            if (flag){
+                //提示绿色对勾
+                s_username.innerHTML = "<img src='img/gou.png' class='goupng'>"
+            }else{
+                //提示用户名有误
+                s_username.innerHTML = "用户名格式有误";
+            }
+            return flag;
+        }
+
+        //校验密码
+        function checkPassword() {
+            //1.获取密码的值
+            var password = document.getElementById("password").value;
+            //2.定义正则表达式
+            var reg_password = /^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,18}$/;//8到18位的正则表达式
+            /*
+                密码校验正则表达式
+                要求一、
+                1.密码必须由字母、数字、特殊符号组成，区分大小写
+                2.特殊符号包含（. _ ~ ! @ # $ ^ & *）
+                3.密码长度为8-20位
+
+                实现1：
+                ^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[._~!@#$^&*])[A-Za-z0-9._~!@#$^&*]{8,20}$
+                实现2：
+                ^(?![a-zA-Z]+$)(?![0-9]+$)(?![._~!@#$^&*]+$)(?![0-9a-zA-Z]+$)(?![0-9._~!@#$^&*]+$)(?![a-zA-Z._~!@#$^&*]+$)[A-Za-z0-9._~!@#$^&*]{8,20}$
+
+                要求二、
+                1.密码必须由字母、数字组成，区分大小写
+                2.密码长度为8-18位
+
+                实现1：
+                ^(?=.*[a-zA-Z])(?=.*[0-9])[A-Za-z0-9]{8,18}$
+                实现2：
+                ^(?![a-zA-Z]+$)(?![0-9]+$)[A-Za-z0-9]{8,18}$
+             */
+            //3.判断值是否符合正则的规则
+            var flag = reg_password.test(password);
+            //4.提示信息
+            var s_password = document.getElementById("s_password");
+            if (flag){
+                //提示绿色对勾
+                s_password.innerHTML = "<img src='img/gou.png' class='goupng'>"
+            }else{
+                //提示密码名有误
+                s_password.innerHTML = "密码名格式有误";
+            }
+            return flag;
+        }
+
+        //校验邮箱名
+        function checkEmail() {
+            //1.获取邮箱名的值
+            var Email = document.getElementById("Email").value;
+            //2.定义正则表达式
+            var reg_Email = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;//邮箱验证的正则表达式
+            /*
+                邮箱验证的正则表达式
+                1、@之前必须有内容且只能是字母（大小写）、数字、下划线(_)、减号（-）、点（.）
+                2、@和最后一个点（.）之间必须有内容且只能是字母（大小写）、数字、点（.）、减号（-），且两个点不能挨着
+                3、最后一个点（.）之后必须有内容且内容只能是字母（大小写）、数字且长度为大于等于2个字节，小于等于6个字节
+
+                邮箱验证的正则表达式：^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$
+             */
+            //3.判断值是否符合正则的规则
+            var flag = reg_Email.test(Email);
+            //4.提示信息
+            var s_Email = document.getElementById("s_Email");
+            if (flag){
+                //提示绿色对勾
+                s_Email.innerHTML = "<img src='img/gou.png' class='goupng'>"
+            }else{
+                //提示邮箱名有误
+                s_Email.innerHTML = "邮箱名格式有误";
+            }
+            return flag;
+        }
+        
+        //校验姓名
+        function checkname() {
+            //1.获取姓名的值
+            var name = document.getElementById("name").value;
+            //2.定义正则表达式
+            var reg_name = /^\w{6,12}$/;//6到12位的正则表达式
+            //3.判断值是否符合正则的规则
+            var flag = reg_name.test(name);
+            //4.提示信息
+            var s_name = document.getElementById("s_name");
+            if (flag){
+                //提示绿色对勾
+                s_name.innerHTML = "<img src='img/gou.png' class='goupng'>"
+            }else{
+                //提示姓名有误
+                s_name.innerHTML = "姓名格式有误";
+            }
+            return flag;
+        }
+
+        //校验手机号
+        function checktelephone() {
+            //1.获取手机号的值
+            var telephone = document.getElementById("telephone").value;
+            //2.定义正则表达式
+            var reg_telephone = /^\w{6,12}$/;//6到12位的正则表达式
+            //3.判断值是否符合正则的规则
+            var flag = reg_telephone.test(telephone);
+            //4.提示信息
+            var s_telephone = document.getElementById("s_telephone");
+            if (flag){
+                //提示绿色对勾
+                s_telephone.innerHTML = "<img src='img/gou.png' class='goupng'>"
+            }else{
+                //提示手机号有误
+                s_telephone.innerHTML = "手机号格式有误";
+            }
+            return flag;
+        }
+
+    </script>
+</head>
+<body>
+<div class="rg_layout">
+    <div class="rg_left">
+        <p>新用户注册</p>
+        <p>USER REGISTER</p>
+    </div>
+    <div class="rg_center">
+        <div class="rg_form">
+            <form action="#" method="get" id="form">
+                <table >
+                    <!--1、用户名-->
+                    <tr>
+                        <td class="td_left"><label for="username">用户名</label></td>
+                        <td class="td_right">
+                            <input type="text" placeholder="请输入账号"  name="username" id="username">
+                            <span id="s_username" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <!--2、密码-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="password">密码</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="password" name="password" id="password" placeholder="请输入密码">
+                            <span id="s_password" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <!--3、邮箱-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="Email">Email</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="email" placeholder="请输入邮箱" name="Email" id="Email">
+                            <span id="s_Email" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <!--4、姓名-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="name">姓名</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" placeholder="请输入真实姓名" name="name" id="name" >
+                            <span id="s_name" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <!--5、手机号-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="telephone">手机号</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" name="telephone" placeholder="请输入您的手机号" id="telephone">
+                            <span id="s_telephone" class="error"></span>
+                        </td>
+                    </tr>
+
+                    <!--6、性别-->
+                    <tr>
+                        <td class="td_left">
+                            性别
+                        </td>
+                        <td class="td_right">
+                            <input type="radio" value="male" name="gender" checked="checked">男
+                            <input type="radio" value="female" name="gender">女
+                        </td>
+                    </tr>
+
+                    <!--7、出生日期-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="birthday">出生日期</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="date" id="birthday" name="birthday" >
+                        </td>
+                    </tr>
+
+                    <!--8、验证码-->
+                    <tr>
+                        <td class="td_left">
+                            <label for="checkcode">验证码</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" name="checkcode" id="checkcode" placeholder="请输入验证码">
+                            <img src="img/verify_code.jpg" id="img_check">
+                        </td>
+                    </tr>
+
+                    <!--注册按钮-->
+                    <tr  >
+                        <td align="center" colspan="2">
+                            <input type="submit" value="注册" id="btn_sub">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="rg_right">
+        <p>已有账号?<a href="#">立即登录</a></p>
+    </div>
+</div>
+</body>
+</html>
