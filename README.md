@@ -9,3 +9,10 @@ Java自学笔记代码整理（跟着视频）
 - 类与对象、封装、构造方法
 - 数组
 - String类、static、Array类、Math类
+## Week1  
+这星期松懈很多，Java这块大头竟然没有捡起来，落下进度太多。所幸Javaweb可以大部分完成，但是还是有很多只是单纯CV，还需跟进一步的理解深入。知其所以然！
+
+- 入门了Javascript基础知识
+- 简单学习了JavaScript的BOM与DOM事件的概论知识
+- 入门XML，确实理解了它的强大之处，代替配置文件！
+- 简单学习了Tomcat服务器和一些servlet的一些入门

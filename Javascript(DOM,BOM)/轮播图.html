@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+
+</head>
+<body>
+    <img src="img/banner_1.jpg" width="100%" id="image">
+    <script>
+        /*
+            分析：
+                1、在页面上使用img标签展示图片
+                2、定义一个方法，修改图片对象的src属性
+                3、定义一个定时器，每隔3秒钟调用方法一次
+         */
+        var image= document.getElementById("image");
+        var num = 1;
+        function changeimg() {
+            num++;
+            image.src = "img/banner_"+num+".jpg";
+            num = num % 3;
+        }
+        window.setInterval(changeimg,3000);
+    </script>
+</body>
+</html>

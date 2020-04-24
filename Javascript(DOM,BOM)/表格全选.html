@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格全选</title>
+
+</head>
+<body>
+    <div>
+        <input type="text" id="id" placeholder="请输入编号">
+        <input type="text" id="name"  placeholder="请输入姓名">
+        <input type="text" id="gender"  placeholder="请输入性别">
+        <input type="button" value="添加" id="btn_add">
+    </div>
+
+    <table>
+        <caption>学生信息表</caption>
+        <tr class='tr'>
+            <th><input type="checkbox"  name="cb" id="firstcb"></th>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>操作</th>
+        </tr >
+
+        <tr>
+            <td><input type="checkbox" name="cb"></td>
+            <td>1</td>
+            <td>令狐冲</td>
+            <td>男</td>
+            <td><a href="javascript:void(0);" onclick="delTr(this);" >删除</a></td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" name="cb"></td>
+            <td>2</td>
+            <td>任我行</td>
+            <td>男</td>
+            <td><a href="javascript:void(0);" onclick="delTr(this);">删除</a></td>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox" name="cb"></td>
+            <td>3</td>
+            <td>岳不群</td>
+            <td>?</td>
+            <td><a href="javascript:void(0);" onclick="delTr(this);">删除</a></td>
+        </tr>
+    </table>
+    <div>
+        <input type="button" id="selectAll" value="全选">
+        <input type="button" id="unSelectAll" value="全不选">
+        <input type="button" id="selectRev" value="反选">
+    </div>
+
+    <style>
+        div{
+            text-align: center;
+            margin: 50px;
+        }
+        table{
+            text-align: center;
+            margin: auto;
+            width: 500px;
+            border: 2px solid;
+        }
+        th,td{
+            border: 2px solid;
+        }
+
+        .mouseover{/*注意加点*/
+            background-color: pink;
+        }
+        .mouseout{
+            background-color: white;
+        }
+    </style>
+    <script>
+        /*
+            分析：
+
+         */
+        //添加
+        //页面加载完后绑定事件
+        window.onload = function() {
+            //给添加按钮绑定单击事件
+            document.getElementById("btn_add").onclick = function () {
+                var idVue = document.getElementById("id").value;
+                var nameVue = document.getElementById("name").value;
+                var genderVue = document.getElementById("gender").value;
+                var table = document.getElementsByTagName("table")[0];
+                table.innerHTML += "<tr>\n" +
+                    "            <td ><input type='checkbox' name='cb'></td>\n"+
+                    "            <td>" + idVue + "</td>\n" +
+                    "            <td>" + nameVue + "</td>\n" +
+                    "            <td>" + genderVue + "</td>\n" +
+                    "            <td><a href=\"javascript:void(0);\" onclick=\"delTr(this);\">删除</a></td>\n" +
+                    "        </tr>"
+
+            }
+            //给全选按钮绑定事件
+            /*
+                分析：
+                    1.全选：
+                        *获取所有的checkbook
+                        * 遍历cb，设置每一个cb的状态为选中
+             */
+
+            document.getElementById("selectAll").onclick = function(){
+                var cbs = document.getElementsByName("cb");
+                //遍历
+                for (var i = 0; i < cbs.length; i++) {
+                    //设置每一个cb的状态为选中 checked
+                    cbs[i].checked = true;
+                }
+            }
+
+            document.getElementById("unSelectAll").onclick = function(){
+                var cbs = document.getElementsByName("cb");
+                //遍历
+                for (var i = 0; i < cbs.length; i++) {
+                    //设置每一个cb的状态为没选中 checked
+                    cbs[i].checked = false;
+                }
+            }
+
+            document.getElementById("selectRev").onclick = function () {
+                var cbs = document.getElementsByName("cb");
+                //遍历
+                for (var i = 0; i < cbs.length; i++) {
+                    //反选
+                    cbs[i].checked = !cbs[i].checked;
+                }
+            }
+
+            //第一个cb点击
+            document.getElementById("firstcb").onclick = function (){
+                var cbs = document.getElementsByName("cb");
+                //遍历
+                for (var i = 0; i < cbs.length; i++) {
+                    cbs[i].checked = this.checked;
+                }
+            }
+
+        }
+        function delTr(obj) {
+            var table = obj.parentNode.parentNode.parentNode;
+            var tr = obj.parentNode.parentNode;//var tr = table.childNodes 是不行的
+            table.removeChild(tr);
+        }
+        //给所有tr绑定鼠标事件
+        document.onmousemove = function(){
+            var trs = document.getElementsByTagName("tr");
+            for (var i = 0; i < trs.length;i++){
+                //移到元素之上
+                trs[i].onmouseover = function over() {
+                    this.className = "mouseover";
+                }
+                //移出元素之外
+                trs[i].onmouseout = function () {
+                    this.className = "mouseout";
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
